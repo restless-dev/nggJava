@@ -4,46 +4,50 @@ import javax.swing.*;
 
 public class NumberGG {
     public static void main(String[] args) {
-        int difficulty = Integer.parseInt(JOptionPane.showInputDialog(null, "Please, select the difficulty of the game:\nType 1 for Easy (1 - 10)\nType 2 for Normal (1 - 100) [RECOMENDED]\nType 3 for Hard (1 - 1000)", "NumberGG: Difficulty", 3));
-        String warning = "";
-        int answer = 0;
-        String userInput = "";
-        int max = 0;
-        switch (difficulty) {
-            case 1 -> {
-                Difficulty easyDiff = easyDifficulty(warning, answer, max);
-                warning = easyDiff.warningD;
-                answer = easyDiff.answerD;
-                max = easyDiff.maxD;
+        try {
+            int difficulty = Integer.parseInt(JOptionPane.showInputDialog(null, "Please, select the difficulty of the game:\nType 1 for Easy (1 - 10)\nType 2 for Normal (1 - 100) [RECOMMENDED]\nType 3 for Hard (1 - 1000)", "NumberGG: Difficulty", 3));
+            String warning = "";
+            int answer = 0;
+            String userInput = "";
+            int max = 0;
+            switch (difficulty) {
+                case 1 -> {
+                    Difficulty easyDiff = easyDifficulty(warning, answer, max);
+                    warning = easyDiff.warningD;
+                    answer = easyDiff.answerD;
+                    max = easyDiff.maxD;
+                }
+                case 2 -> {
+                    Difficulty normalDiff = normalDifficulty(warning, answer, max);
+                    warning = normalDiff.warningD;
+                    answer = normalDiff.answerD;
+                    max = normalDiff.maxD;
+                }
+                case 3 -> {
+                    Difficulty hardDiff = hardDifficulty(warning, answer, max);
+                    warning = hardDiff.warningD;
+                    answer = hardDiff.answerD;
+                    max = hardDiff.maxD;
+                }
+                default -> {
+                    Difficulty defaultDiff = normalDifficulty(warning, answer, max);
+                    warning = "Invalid number! The recommended difficulty has been selected!";
+                    answer = defaultDiff.answerD;
+                    max = defaultDiff.maxD;
+                }
             }
-            case 2 -> {
-                Difficulty normalDiff = normalDifficulty(warning, answer, max);
-                warning = normalDiff.warningD;
-                answer = normalDiff.answerD;
-                max = normalDiff.maxD;
+            JOptionPane.showMessageDialog(null, warning, "Starting Game!",1);
+            System.out.println("Random number selected! Waiting for user guess...");
+            int guessNumber = 0;
+            int countOfGuesses = 1;
+            while(guessNumber != answer){
+                userInput = JOptionPane.showInputDialog(null, "Please, pick a number between 1 and " + max + "!", "NumberGG", 3);
+                guessNumber = Integer.parseInt(userInput);
+                JOptionPane.showMessageDialog(null, "" + guessVerifier(guessNumber, answer, countOfGuesses, max));
+                countOfGuesses++;
             }
-            case 3 -> {
-                Difficulty hardDiff = hardDifficulty(warning, answer, max);
-                warning = hardDiff.warningD;
-                answer = hardDiff.answerD;
-                max = hardDiff.maxD;
-            }
-            default -> {
-                Difficulty defaultDiff = normalDifficulty(warning, answer, max);
-                warning = "Invalid number! The recommended difficulty has been selected!";
-                answer = defaultDiff.answerD;
-                max = defaultDiff.maxD;
-            }
-        }
-        System.out.println(warning);
-        System.out.println("Random number selected! Waiting for user guess...");
-        int guessNumber = 0;
-        int countOfGuesses = 1;
-        while(guessNumber != answer){
-            userInput = JOptionPane.showInputDialog(null, "Please, pick a number between 1 and " + max + "!", "NumberGG", 3);
-            guessNumber = Integer.parseInt(userInput);
-            JOptionPane.showMessageDialog(null, "" + guessVerifier(guessNumber, answer, countOfGuesses, max));
-            countOfGuesses++;
+        } catch (Exception e){
+            System.out.println("Thank you for playing!");
         }
     }
 
