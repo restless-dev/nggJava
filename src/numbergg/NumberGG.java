@@ -4,40 +4,34 @@ import javax.swing.*;
 
 public class NumberGG {
     public static void main(String[] args) {
-        String difficultyIni = JOptionPane.showInputDialog(null, "Please, select the difficulty of the game:\nType 1 for Easy (1 - 10)\nType 2 for Normal (1 - 100) [RECOMENDED]\nType 3 for Hard (1 - 1000)", "NumberGG: Difficulty", 3);
-        int difficulty = Integer.parseInt(difficultyIni);
+        int difficulty = Integer.parseInt(JOptionPane.showInputDialog(null, "Please, select the difficulty of the game:\nType 1 for Easy (1 - 10)\nType 2 for Normal (1 - 100) [RECOMENDED]\nType 3 for Hard (1 - 1000)", "NumberGG: Difficulty", 3));
         String warning = "";
         int answer = 0;
         String userInput = "";
         int max = 0;
         switch (difficulty) {
             case 1 -> {
-                Difficulty easyDiff = easyDifficulty(warning, answer, userInput, max);
+                Difficulty easyDiff = easyDifficulty(warning, answer, max);
                 warning = easyDiff.warningD;
                 answer = easyDiff.answerD;
-                System.out.println(answer);
-                userInput = easyDiff.userInputD;
                 max = easyDiff.maxD;
             }
             case 2 -> {
-                Difficulty normalDiff = normalDifficulty(warning, answer, userInput, max);
+                Difficulty normalDiff = normalDifficulty(warning, answer, max);
                 warning = normalDiff.warningD;
                 answer = normalDiff.answerD;
-                userInput = normalDiff.userInputD;
                 max = normalDiff.maxD;
             }
             case 3 -> {
-                Difficulty hardDiff = hardDifficulty(warning, answer, userInput, max);
+                Difficulty hardDiff = hardDifficulty(warning, answer, max);
                 warning = hardDiff.warningD;
                 answer = hardDiff.answerD;
-                userInput = hardDiff.userInputD;
                 max = hardDiff.maxD;
             }
             default -> {
-                Difficulty defaultDiff = normalDifficulty(warning, answer, userInput, max);
+                Difficulty defaultDiff = normalDifficulty(warning, answer, max);
                 warning = "Invalid number! The recommended difficulty has been selected!";
                 answer = defaultDiff.answerD;
-                userInput = defaultDiff.userInputD;
                 max = defaultDiff.maxD;
             }
         }
@@ -46,6 +40,7 @@ public class NumberGG {
         int guessNumber = 0;
         int countOfGuesses = 1;
         while(guessNumber != answer){
+            userInput = JOptionPane.showInputDialog(null, "Please, pick a number between 1 and " + max + "!", "NumberGG", 3);
             guessNumber = Integer.parseInt(userInput);
             JOptionPane.showMessageDialog(null, "" + guessVerifier(guessNumber, answer, countOfGuesses, max));
             countOfGuesses++;
@@ -67,33 +62,24 @@ public class NumberGG {
     }
 
     static class Difficulty {
-        String difficulty = JOptionPane.showInputDialog(null, "Please, select the difficulty of the game:\nType 1 for Easy (1 - 10)\nType 2 for Normal (1 - 100) [RECOMENDED]\nType 3 for Hard (1 - 1000)", "NumberGG: Difficulty", 3);
         int answerD;
-        String userInputD;
         int maxD;
         String warningD;
 
-        Difficulty(String warningP, int answerP, String userInputP, int maxP) {
+        Difficulty(String warningP, int answerP, int maxP) {
             warningD = warningP;
             answerD = answerP;
-            userInputD = userInputP;
             maxD = maxP;
         }
     }
-        static Difficulty easyDifficulty(String w, int a, String u, int m) {
-            a = (int)(Math.random() * 10 + 1);
-            u = JOptionPane.showInputDialog(null, "Please, pick a number between 1 and 10!", "NumberGG - Easy", 3);
-            return new Difficulty("You picked the Easy difficulty! Good luck!", a, u,10);
+        static Difficulty easyDifficulty(String w, int a, int m) {
+            return new Difficulty("You picked the Easy difficulty! Good luck!", (int)(Math.random() * 10 + 1),10);
         }
-        static Difficulty normalDifficulty(String w, int a, String u, int m) {
-            a = (int)(Math.random() * 100 + 1);
-            u = JOptionPane.showInputDialog(null, "Please, pick a number between 1 and 100!", "NumberGG - Normal", 3);
-            return new Difficulty("You picked the Normal difficulty! Good luck!", a, u, 100);
+        static Difficulty normalDifficulty(String w, int a, int m) {
+            return new Difficulty("You picked the Normal difficulty! Good luck!", (int)(Math.random() * 100 + 1), 100);
         }
-        static Difficulty hardDifficulty(String w, int a, String u, int m) {
-            a = (int) (Math.random() * 1000 + 1);
-            u = JOptionPane.showInputDialog(null, "Please, pick a number between 1 and 1000!", "NumberGG - Hard", 3);;
-            return new Difficulty("You picked the Hard difficulty! Good luck!", a, u, 1000);
+        static Difficulty hardDifficulty(String w, int a, int m) {
+            return new Difficulty("You picked the Hard difficulty! Good luck!", (int) (Math.random() * 1000 + 1), 1000);
         }
 
 }
